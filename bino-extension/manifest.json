@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Bino - Google Meet Student Telemetry",
+  "version": "1.0.1",
+  "description": "Real-time Google Meet student telemetry & engagement monitor for Project Bino.",
+  "permissions": [
+    "tabs",
+    "idle",
+    "storage",
+    "notifications",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://meet.google.com/*",
+    "http://localhost:3000/*",
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://meet.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Bino Telemetry Status",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

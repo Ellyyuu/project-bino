@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bino Extension</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      width: 320px;
+      background: linear-gradient(135deg, #7A3A65 0%, #662E53 100%);
+      color: #FFFFFF;
+      padding: 16px;
+      font-size: 14px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(143, 132, 174, 0.3);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(59, 85, 112, 0.7);
+      border: 1px solid rgba(136, 164, 167, 0.4);
+      color: #34D399;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34D399;
+    }
+    .section {
+      background: rgba(59, 85, 112, 0.3);
+      border: 1px solid rgba(143, 132, 174, 0.3);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8F84AE;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .status-row:last-child {
+      margin-bottom: 0;
+    }
+    .status-val {
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+    .btn {
+      width: 100%;
+      background: #88A4A7;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-secondary {
+      background: rgba(122, 58, 101, 0.8);
+      border: 1px solid #8F84AE;
+      margin-top: 8px;
+    }
+    .btn-secondary:hover {
+      background: #8E4877;
+    }
+    .account-badge {
+      background: rgba(122, 58, 101, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .input-field {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: 1px solid #8F84AE;
+      background: rgba(0, 0, 0, 0.35);
+      color: #FFFFFF;
+      font-size: 12px;
+      margin-bottom: 8px;
+      outline: none;
+    }
+    .input-field:focus {
+      border-color: #34D399;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <span style="font-size: 20px;">🦖</span>
+      <span class="brand-title">Bino</span>
+    </div>
+    <div class="badge">
+      <span class="dot"></span>
+      <span>AUTO-TELEMETRY</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="status-row">
+      <span class="label" style="margin:0;">Meeting Status</span>
+      <span class="status-val" id="meeting-status" style="color: #34D399;">Active Call Only</span>
+    </div>
+    <div class="status-row" style="margin-top:6px; display:flex; justify-content:space-between; align-items:center;">
+      <span class="label" style="margin:0;">Server Link</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span class="status-val" id="server-status" style="color: #34D399;">Connected</span>
+        <button id="toggle-server-btn" style="background:none; border:none; color:#88A4A7; font-size:10px; cursor:pointer; text-decoration:underline;">(Change)</button>
+      </div>
+    </div>
+    <div id="server-edit" style="display:none; margin-top:8px; border-top:1px solid rgba(143,132,174,0.3); padding-top:8px;">
+      <input id="input-server-url" class="input-field" type="text" placeholder="e.g. julian-pottery-thou-cms.trycloudflare.com" style="margin-bottom:6px;" />
+      <div style="display:flex; gap:6px;">
+        <button id="btn-save-server" class="btn" style="background:#10B981; padding:5px; font-size:11px;">Save Link</button>
+        <button id="btn-cancel-server" class="btn" style="background:#475569; padding:5px; font-size:11px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+      <label class="label" style="margin:0;">Signed-in Google Account</label>
+      <button id="toggle-edit-btn" style="background:none; border:none; color:#88A4A7; font-size:11px; cursor:pointer; text-decoration:underline;">Switch Account</button>
+    </div>
+    <div class="account-badge">
+      <div id="profile-view">
+        <div id="detected-name" style="font-weight:700; color:#FFFFFF; font-size:14px;">Sharmel B. Lomigo</div>
+        <div id="detected-email" style="color:#88A4A7; font-size:11px; margin-top:2px;">sharmellomigo05@gmail.com</div>
+      </div>
+      <div id="profile-edit" style="display:none; margin-top:8px;">
+        <input id="input-name" class="input-field" type="text" placeholder="Display Name (e.g. ダークムーン or Sharmel)" />
+        <input id="input-email" class="input-field" type="email" placeholder="Gmail Address" />
+        <div style="display:flex; gap:6px;">
+          <button id="btn-save-profile" class="btn" style="background:#10B981; padding:6px; font-size:12px;">Save & Update</button>
+          <button id="btn-cancel-profile" class="btn" style="background:#475569; padding:6px; font-size:12px;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <label class="label">Simulate Telemetry Status</label>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+      <button id="btn-status-active" class="btn" style="background:#10B981; font-size:11px; padding:6px;">Active</button>
+      <button id="btn-status-unfocused" class="btn" style="background:#F43F5E; font-size:11px; padding:6px;">Unfocused</button>
+      <button id="btn-status-idle" class="btn" style="background:#F59E0B; font-size:11px; padding:6px;">Idle</button>
+      <button id="btn-status-disconnected" class="btn" style="background:#475569; font-size:11px; padding:6px;">Disconnected</button>
+    </div>
+  </div>
+
+  <button id="open-dashboard-btn" class="btn btn-secondary">
+    Open Monitoring Dashboard
+  </button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
